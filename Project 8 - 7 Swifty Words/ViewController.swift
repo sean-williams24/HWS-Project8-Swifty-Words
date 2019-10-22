@@ -165,12 +165,18 @@ class ViewController: UIViewController {
     @objc func letterTapped(_ sender: UIButton) {
         //safety check to read the title from the tapped button, or exit if it didn’t have one for some reason.
         guard let buttonLabel = sender.titleLabel?.text else { return }
+        
         //append that button title to players current answer textfield
         currentAnswer.text = currentAnswer.text?.appending(buttonLabel)
+        
         //append button to activated buttons array
         activatedButtons.append(sender)
+        
         //hide button that was tapped
-        sender.isHidden = true
+        UIView.animate(withDuration: 0.5, delay: 0, options: [], animations: {
+            sender.alpha = 0
+        }) { (finished) in
+        }
         
     }
     
@@ -186,7 +192,7 @@ class ViewController: UIViewController {
                 currentAnswer.text = ""
 
                 for btn in activatedButtons {
-                    btn.isHidden = false
+                    btn.alpha = 1
                 }
             
                 activatedButtons.removeAll()
@@ -234,12 +240,13 @@ class ViewController: UIViewController {
         currentAnswer.text = ""
         
         for btn in activatedButtons {
-            btn.isHidden = false
+            btn.alpha = 1
         }
         
         activatedButtons.removeAll()
         
     }
+    
     
     @objc func loadLevel() {
         
